@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import Body, FastAPI, Response, status
+from fastapi import Body, FastAPI, Response, status, HTTPException
 from pydantic import BaseModel
 # from random import randrange
 
@@ -35,10 +35,12 @@ def create_posts(post: Post):
     return {"data": post_dict}
 
 @app.get("/posts/{id}") #path params are always str
-def get_post(id: int, res: Response):
+def get_post(id: int, res: Response): #res not needed
     post = find_post(id)
     if not post:
-        res.status_code = status.HTTP_404_NOT_FOUND
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with id: {id} was not found")
+        # res.status_code = status.HTTP_404_NOT_FOUND
+        # return {"message": f"post with id: {id} was not found"}
     return {"post_detail": post}
 
 # Keep aware of your routes as similar path may hit because of ordering
