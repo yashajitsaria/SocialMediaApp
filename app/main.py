@@ -3,6 +3,7 @@ from fastapi import FastAPI, Response, status, HTTPException
 from pydantic import BaseModel
 from random import randrange
 
+#Post schema
 class Post(BaseModel):
     title: str
     content: str
