@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import Body, FastAPI
+from fastapi import Body, FastAPI, Response
 from pydantic import BaseModel
 # from random import randrange
 
@@ -13,6 +13,7 @@ app = FastAPI()
 
 myPosts = [{"title": "title of post 1", "content": "content of post 1", "id": 1}, {"title": "title of post 2", "content": "content of post 2", "id": 2}]
 
+#not the best way to retrieve data
 def find_post(id):
     for post in myPosts:
         if post['id'] == id:
@@ -34,7 +35,14 @@ def create_posts(post: Post):
     return {"data": post_dict}
 
 @app.get("/posts/{id}") #path params are always str
-def get_post(id: int):
+def get_post(id: int, res: Response):
     post = find_post(id)
-    print(post)
+    if not post:
+        res.status_code = 404
     return {"post_detail": post}
+
+# Keep aware of your routes as similar path may hit because of ordering
+# @app.get("/posts/latest")
+# def get_latest_post():
+#     post = myPosts[len(myPosts)-1]
+#     return {"latest post": post}
