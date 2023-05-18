@@ -27,7 +27,7 @@ def root():
 def get_posts():
     return {"data": myPosts}
 
-@app.post("/posts")
+@app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post):
     post_dict = post.dict()
     post_dict["id"] = len(myPosts) + 1 #randrange(0, 100000)
