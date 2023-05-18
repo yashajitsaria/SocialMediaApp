@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import Body, FastAPI, Response
+from fastapi import Body, FastAPI, Response, status
 from pydantic import BaseModel
 # from random import randrange
 
@@ -38,7 +38,7 @@ def create_posts(post: Post):
 def get_post(id: int, res: Response):
     post = find_post(id)
     if not post:
-        res.status_code = 404
+        res.status_code = status.HTTP_404_NOT_FOUND
     return {"post_detail": post}
 
 # Keep aware of your routes as similar path may hit because of ordering
