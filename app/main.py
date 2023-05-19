@@ -24,21 +24,6 @@ while True:
         print("Error: ", err)
         time.sleep(2)
 
-#temporary replacement for a db
-myPosts = [{"title": "title of post 1", "content": "content of post 1", "id": 1}, {"title": "title of post 2", "content": "content of post 2", "id": 2}]
-
-#Find a post
-def find_post(id):
-    for post in myPosts:
-        if post['id'] == id:
-            return post
-
-#Find index of a post      
-def find_index_post(id):
-    for index, post in enumerate(myPosts):
-        if post['id'] == id:
-            return index
-
 #Hello World
 @app.get("/")
 def root():
