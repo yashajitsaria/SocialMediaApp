@@ -46,7 +46,6 @@ def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db)):
     db.add(newPost)
     db.commit()
     db.refresh(newPost)
-    print(newPost)
     return newPost
 
 #Get a Post
