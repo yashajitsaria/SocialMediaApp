@@ -48,7 +48,9 @@ def root():
 #Get all Posts
 @app.get("/posts")
 def get_posts():
-    return {"data": myPosts}
+    cursor.execute("SELECT * FROM posts")
+    posts = cursor.fetchall()
+    return {"data": posts}
 
 #Create a Post
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
