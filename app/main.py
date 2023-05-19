@@ -1,8 +1,9 @@
-from fastapi import FastAPI, Response, status, HTTPException
+from fastapi import FastAPI, Response, status, HTTPException, Depends
 from pydantic import BaseModel
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
+from sqlalchemy.orm import Session
 from . import models
 from .database import engine, SessionLocal
 
@@ -40,6 +41,11 @@ while True:
 @app.get("/")
 def root():
     return {"message": "Hello World"}
+
+#test
+@app.get("/sqlalchemy")
+def test_posts(db: Session = Depends(get_db)):
+    return {"status": "success"}
 
 #Get all Posts
 @app.get("/posts")
