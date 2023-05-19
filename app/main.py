@@ -50,10 +50,14 @@ def get_all_posts(db: Session = Depends(get_db)):
 
 #Create a Post
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_posts(post: Post):
-    cursor.execute("INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) RETURNING *", (post.title, post.content, post.published))
-    newPost = cursor.fetchone()
-    conn.commit()
+def create_posts(post: Post, db: Session = Depends(get_db)):
+    # cursor.execute("INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) RETURNING *", (post.title, post.content, post.published))
+    # post = cursor.fetchone()
+    # conn.commit()
+    newPost = models.Post(**post.dict())
+    db.add(newPost)
+    db.commit()
+    db.refresh(newPost)
     return {"data": newPost}
 
 #Get a Post
