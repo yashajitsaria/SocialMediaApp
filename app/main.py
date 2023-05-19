@@ -1,6 +1,5 @@
 from fastapi import FastAPI, Response, status, HTTPException
 from pydantic import BaseModel
-from random import randrange
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
@@ -47,7 +46,7 @@ def root():
 
 #Get all Posts
 @app.get("/posts")
-def get_posts():
+def get_all_posts():
     cursor.execute("SELECT * FROM posts")
     posts = cursor.fetchall()
     return {"data": posts}
@@ -55,10 +54,10 @@ def get_posts():
 #Create a Post
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post):
-    post_dict = post.dict()
-    post_dict["id"] = randrange(0, 100000)
-    myPosts.append(post_dict)
-    return {"data": post_dict}
+    cursor.execute("INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) RETURNING *", (post.title, post.content, post.published))
+    newPost = cursor.fetchone()
+    conn.commit()
+    return {"data": newPost}
 
 #Get a specific Post
 @app.get("/posts/{id}")
