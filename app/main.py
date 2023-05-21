@@ -85,6 +85,7 @@ def update_post(id: int, updated_post: schemas.PostCreate, db: Session = Depends
     # conn.commit()
     return post_query.first()
 
+#Create a user
 @app.post("/users", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     #hash the password
