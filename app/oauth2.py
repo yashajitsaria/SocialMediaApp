@@ -34,7 +34,7 @@ def verify_access_token(token: str, credentials_exception):
         print(e)
         raise credentials_exception
     except AssertionError as e:
-        raise
+        print(e)
 
     return token_data
 
