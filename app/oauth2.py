@@ -22,7 +22,6 @@ def create_access_token(payload: dict):
 
 def verify_access_token(token: str, credentials_exception):
     try:
-        print(token)
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
 
         id: str = payload.get("user_id")
@@ -30,11 +29,8 @@ def verify_access_token(token: str, credentials_exception):
             raise credentials_exception
 
         token_data = schemas.TokenData(id=id)
-    except JWSError as e:
-        print(e)
+    except JWSError:
         raise credentials_exception
-    except AssertionError as e:
-        print(e)
 
     return token_data
 
